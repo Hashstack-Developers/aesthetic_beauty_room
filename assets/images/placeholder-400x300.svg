@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" role="img" aria-label="Placeholder 400 by 300">
+  <rect width="400" height="300" fill="#e8e8e8"/>
+  <rect x="1" y="1" width="398" height="298" fill="none" stroke="#c0c0c0" stroke-width="2"/>
+  <text x="200" y="155" text-anchor="middle" fill="#5c5c5c" font-family="system-ui,sans-serif" font-size="14">400 × 300</text>
+</svg>
