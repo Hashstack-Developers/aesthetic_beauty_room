@@ -390,4 +390,27 @@
 
   initHeroSlider();
   initTestimonialCarousel();
+
+  /* ---------- Scroll to top (global) ---------- */
+  function initScrollToTop() {
+    const btn = document.querySelector(".scroll-top");
+    if (!btn) return;
+
+    function updateScrollTop() {
+      const show = window.scrollY > 280;
+      btn.classList.toggle("is-visible", show);
+      btn.setAttribute("aria-hidden", show ? "false" : "true");
+      btn.tabIndex = show ? 0 : -1;
+    }
+
+    btn.addEventListener("click", function () {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+
+    window.addEventListener("scroll", updateScrollTop, { passive: true });
+    updateScrollTop();
+  }
+
+  initScrollToTop();
 })();
