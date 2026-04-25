@@ -239,7 +239,7 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
     }
 
-    contactForm.addEventListener("submit", function (e) {
+    contactForm.addEventListener("submit", async function (e) {
       e.preventDefault();
       if (successMsg) successMsg.classList.remove("is-visible");
 
@@ -276,12 +276,55 @@
         valid = false;
       }
 
-      if (valid) {
+      if (!valid) return;
+
+      const submitBtn = contactForm.querySelector("button[type='submit']");
+      const originalBtnText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+      }
+
+      try {
+        const payload = {
+          name: name.value.trim(),
+          email: email.value.trim(),
+          message: message.value.trim(),
+        };
+
+        const response = await fetch("contact.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json().catch(function () {
+          return {};
+        });
+
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || "Unable to send message right now.");
+        }
+
         if (successMsg) {
+          successMsg.textContent = "Thank you — your message has been received. We will reply within one business day.";
           successMsg.classList.add("is-visible");
           successMsg.focus();
         }
         contactForm.reset();
+      } catch (err) {
+        if (successMsg) {
+          successMsg.textContent = err.message || "Unable to send message right now. Please try again.";
+          successMsg.classList.add("is-visible");
+          successMsg.focus();
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText || "Send message";
+        }
       }
     });
 
