@@ -42,7 +42,7 @@ if (mb_strlen($message) < 10) {
 }
 
 // Update this to the inbox where you want messages.
-$to = "syedahsannaqvi75@gmail.com";
+$to = "aestheticbeautyroom4u@gmail.com";
 $subject = "New contact form message - Aesthetic Beauty Room";
 
 $safeName = htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
